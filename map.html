@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Add a WMS source</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic3dlcnQiLCJhIjoiY2s3bHNtdjF2MDJ1eTNmcGowanU5MHR4ZiJ9.hzhWj9bhgD5itpWAPc3nNA';
+        const map = new mapboxgl.Map({
+            container: 'map',
+            // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+            style: 'mapbox://styles/mapbox/light-v11',
+            zoom: 8,
+            center: { lng: 36.04387450520551, lat: 36.86086166279971 }
+        });
+
+        map.on('load', () => {
+
+            map.addSource('wms-test-source1', {
+                'type': 'raster',
+                'tiles': [
+                    'https://serg.one/test.php?url=https://maps.disasters.nasa.gov/ags04/rest/services/turkey_earthquake_2023/True_Color_Imagery_for_Turkey_Earthquakes/MapServer/export?dpi=96&transparent=true&format=png32&layers=show%3A153%2C164%2C165%2C166%2C167%2C168%2C169%2C170%2C171%2C172%2C173%2C174%2C175%2C176%2C177%2C178%2C179%2C180%2C181%2C182%2C183%2C184%2C185%2C146%2C147%2C148%2C149%2C138%2C139%2C140%2C141%2C119%2C120%2C121%2C122%2C123%2C124%2C125%2C126%2C127%2C128%2C129%2C130%2C131%2C132%2C133%2C107%2C108%2C109%2C110%2C111%2C112%2C113%2C114%2C115%2C116%2C94%2C95%2C96%2C97%2C98%2C99%2C100%2C101%2C102%2C103%2C104%2C105%2C49%2C50%2C51%2C52%2C53%2C54%2C55%2C56%2C57%2C58%2C59%2C60%2C61%2C62%2C63%2C64%2C65%2C66%2C67%2C68%2C154%2C155%2C156%2C157%2C158%2C159&bbox={bbox-epsg-3857}&bboxSR=102100&imageSR=102100&size=256%2C256&f=image'
+                ],
+                'tileSize': 256
+            });
+            map.addLayer(
+                {
+                    'id': 'wms-test-layer1',
+                    'type': 'raster',
+                    'source': 'wms-test-source1',
+                    'paint': {}
+                },
+                'building' // Place layer under labels, roads and buildings.
+            );
+        });
+    </script>
+
+</body>
+
+</html>
